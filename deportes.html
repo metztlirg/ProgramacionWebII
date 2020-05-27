@@ -1,0 +1,152 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mis Deportes Favoritos</title>
+	<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/babel">
+
+class Titulo extends React.Component{
+	render(){
+		var titStyle={
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white",
+			backgroundColor: "plum",
+			width: "100%"
+		};
+		
+		return(
+		<div style={titStyle}>
+			<h1>Mis deportes Favoritos</h1>
+		</div>
+		);
+	}
+}
+
+class D1 extends React.Component{
+	render(){
+		var d1Style={
+			display: "flex",
+			justifyContent: "flex-start",
+			flexDirection: "column",
+			alignItems: "center",
+			border: "1px solid white",
+			width: "80%",
+			height: 400,
+			borderRadius: 5,
+			backgroundColor: "lightsalmon",
+			padding: 20,
+			fontFamily: "Candara"
+		};
+		
+		return(
+		<div style={d1Style}>
+			{this.props.children}
+		</div>
+		);
+	}
+}
+
+
+class Contenido extends React.Component{
+	render(){
+		var contStyle={
+			margin: "0 auto",
+			display: "flex",
+			alignItems: "center",
+			flexDirection: "column",
+			justifyContent: "center",
+			flexWrap: "wrap",
+			backgroundColor: "pink"
+		};
+		
+		return(
+		<div style={contStyle}>
+			<D1>
+				<h2><em>Tiro con Arco</em> </h2>
+				<p>El tiro con arco es el deporte en el que se practica la habilidad de utilizar un arco para propulsar flechas</p> 
+					<img src='images/img1.jpg' width='400' />
+			</D1>
+			<D1>
+				<h2><em>Gimnasia Rítmica</em> </h2>
+				<p>La gimnasia rítmica es una especialidad gimnástica que, con música de fondo y apelando muchas veces a la utilización de aparatos, recurre a pasos de danza en el desarrollo de sus rutinas.Se trata de un deporte cuyas primeras competencias oficiales se llevaron a cabo en la segunda mitad del siglo XX.</p>
+				<img src='images/img3.jpg' width='400'/>
+			</D1>
+			<D1>
+				<h2><em>Natación Sincronizada</em> </h2>
+				<p>El nado sincronizado es una de los deportes o disciplinas consideradas olímpicas que supone el armado de formas artísticas y sincronizadas en un medio acuático. Para realizarla, los participantes (en la mayoría de los casos mujeres) deben poseer habilidades y destrezas en las áreas de la natación y la gimnasia, así como también poder moverse de manera sincronizada al ritmo de la música, lo cual los acerca también al baile o danza.</p>
+				<img src='images/img6.jpg' width='400'/>
+			</D1>
+
+		</div>
+		);
+	}
+}
+
+class Button1 extends React.Component{
+	render(){
+		var but1Style={
+			color: "black",
+			backgroundColor: "mediumorchid",
+			fontWeight: "bold",
+			padding: 10,
+			textAlign: "center",
+			border: "1px solid #5D6063",
+			borderRadius: 5,
+			width: 150,
+			margin: "10px auto"
+		};
+
+		return(
+		<div style={but1Style}>
+			<h2><a href='cur.html'>Regresar</a></h2>
+		</div>
+		);
+	}
+}
+
+class Footer extends React.Component{
+	render(){
+		var fooStyle={
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white",
+			backgroundColor: "plum",
+			flexDirection: "column",
+			width: "100%",
+			fontFamily: "Candara"
+		};
+
+		return(
+		<div style={fooStyle}>
+			<h1>Noticias Deportivas</h1>
+			<p>Página con información actualizada sobre deportes <a href="https://espn.com.mx" target='_blank'> AQUÍ</a>.</p>
+
+			<Button1/>
+		</div>
+		);
+	}
+}
+
+ReactDOM.render(
+		
+		<div>
+			<Titulo/>
+			<Contenido/>
+			<Footer/>	
+		</div>,
+		document.querySelector("#container")
+);
+
+</script>
+</body>
+</html>

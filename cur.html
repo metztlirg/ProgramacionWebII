@@ -1,0 +1,283 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mi Curriculum</title>
+	<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/babel">
+
+class Encabezado extends React.Component{
+	render(){
+		var encabezadoStyle={
+			width: "100%",
+			height: 50,
+			textAlign: "center",
+			alignItems: "center",
+			justifyContent: "center",
+			backgroundColor: "plum",
+			color: "white"
+		};
+		return(
+		<div style={encabezadoStyle}>
+			<h1>CURRICULUM VITAE</h1>
+		</div>
+		);
+	}
+}
+
+class Menu extends React.Component{
+	render(){
+		var menuStyle={
+			display: "flex",
+			height: 50,
+			border: "2 solid white",
+			justifyContent: "space-around",
+			alignItems: "center",
+			backgroundColor: "mediumorchid",
+			fontFamily: "Helvetica"
+		};
+
+		return(
+		<ul style={menuStyle}>
+			<div><li><a href="#uno">Datos Escolares</a></li></div>
+        	<div><li><a href="#dos">Formacion Académica</a></li></div>
+        	<div><li><a href="#tres">Tecnologías</a></li></div>
+        	<div><li><a href="#cuatro">Entretenimiento</a></li></div>
+        	<div><li><a href="#cinco">Otros</a></li></div>
+		</ul>
+		);
+	}
+}
+
+class Foto extends React.Component{
+	render(){
+		var photoStyle={
+			width: "100%",
+			display: "block",
+			alignItems: "center",
+			justifyContent: "center"
+		};
+
+		return(
+		<div style={photoStyle}>
+			<br/>
+            <img src="images/yo1.jpg"/>
+        </div>
+		);
+	}
+}
+
+
+class B1 extends React.Component{
+	render(){
+		var b1Style={
+			display: "flex",
+			justifyContent: "flex-start",
+			flexDirection: "column",
+			alignItems: "center",
+			border: "1px solid white",
+			width: 400,
+			heigt: 700,
+			borderRadius: 5,
+			backgroundColor: "lightgreen",
+			fontFamily: "Verdana"
+		};
+
+		return (
+		<div style={b1Style}>
+			<h2> Datos Personales </h2>
+        	<p>NOMBRE: Metztli Ramírez González. <br/><br/>
+        	EDAD: 21 años <br/><br/>
+        	CONTACTO: metztli.ramirezg@gmail.com <br/><br/>
+        	TEL.    9531490965</p>
+        	<Foto/>
+		</div>
+		);
+	}
+}
+
+class Separador extends React.Component{
+	render(){
+		var sepStyle={
+			backgroundColor: "white",
+			border: "2px solid palevioletred",
+			borderRadius: 10,
+			width: 700,
+			margin: "5px auto"
+		};
+
+		return(
+			<div style={sepStyle}></div>
+		);
+	}
+}
+
+class Medio extends React.Component{
+	render(){
+		var medioStyle={
+			display: "flex",
+			justufyContent: "center",
+			flexDirection: "column",
+			backgroundColor: "pink",
+			margin: 100,
+			fontFamily: "Verdana"	
+		};
+
+		return(
+		<div style={medioStyle}>
+			<h2 id="uno">Datos Escolares </h2>
+	        <p>UNIVERSIDAD: Universidad Tecnológica de la Mixteca <br/>
+	        CARRERA: Ingeniería en Computación. <br/>
+	        SEMESTRE: Sexto<br/>
+	        CICLO ESCOLAR: 2020-B<br/>
+	        MATRICULA: 2017020162</p>
+	        <Separador/> 
+	        
+	        <h2 id="dos">Formación Académica</h2>
+	        <br/>
+        	<ol>
+	            <li> Universidad Tecnológica de la Mixteca. (2017 - actualidad), <em> Huajuapan de León, Oax </em></li>
+	             <li>Preparatoria Número 3, UABJO. (2014 - 2017), <em> Huajuapan de León, Oax </em></li>
+	            <li>Escuela Secundaria Técnica No.189 (2011 - 2014), <em> Villa de Tamazulápam del Progreso, Oax </em></li>
+	            <li>Escuela Urbana Estatal "Gregorio Torres Quintero".(2005- 2011)<em> Villa de Tamazulápam del Progreso, Oax </em></li>
+         	</ol>
+         	<Separador/> 
+
+         	<h2 id="tres">Herramientas tecnológicas</h2>
+         	<strong>Lenguajes de Programación</strong>
+            <ol>
+	             <li>C</li>
+	             <li>C++</li>
+	            <li>Java</li>
+	            <li>Python</li>
+	            <li>MATLAB</li>
+	            <li>VHDL</li>
+	            <li>JavaScript</li>
+	            <li>PHP</li>
+	            <li>Ensamblador</li>
+	        </ol>
+          	<strong>Manejo de Base de datos </strong>
+          	<ul>
+            	<li><p> SQL</p></li>
+          	</ul> 
+          	<strong>Manejo completo del paquete Office.</strong>
+          	<br/>
+          	<strong>Programación en Arduino.</strong>
+          	<br/>
+          	<Separador/> 
+
+          	<h2 id="cuatro">Entretenimiento</h2>
+          	<ol>
+                <li>Lectura de novelas, monografías, ensayos, cuentos y escritos de distintos géneros y autores varios.</li>
+                <li>Apreciación de largometrajes, animaciones y diversos materiales de entretenimiento audivisual.</li>
+                <li>Apreciación musical.</li>
+                <li>Convivencia Familiar.</li>
+                <br/>
+              </ol>
+		</div>	
+		);
+	}
+}
+
+class Contenido extends React.Component{
+	render(){
+		var contStyle={
+			display: "flex",
+			backgroundColor:"pink"
+		};
+		
+		return(
+		<div style={contStyle}>
+			<B1/>
+			<Medio/>
+		</div>
+		);
+	}
+}
+
+class Button1 extends React.Component{
+	render(){
+		var but1Style={
+			color: "black",
+			backgroundColor: "mediumorchid",
+			fontWeight: "bold",
+			padding: 10,
+			textAlign: "center",
+			border: "1px solid #5D6063",
+			borderRadius: 5,
+			width: 150,
+			margin: "10px auto"
+		};
+
+		return(
+		<div style={but1Style}>
+			<h2><a href='deportes.html'>Deportes</a></h2>
+		</div>
+		);
+	}
+}
+
+class Button2 extends React.Component{
+	render(){
+		var but2Style={
+			color: "black",
+			backgroundColor: "mediumorchid",
+			fontWeight: "bold",
+			padding: 10,
+			textAlign: "center",
+			border: "1px solid #5D6063",
+			borderRadius: 5,
+			width: 150,
+			margin: "10px auto"
+		};
+		return(
+		<div style={but2Style}>
+			<h2><a href='cine.html'>Cine</a></h2>
+		</div>
+		);
+	}
+	
+}
+
+class Footer extends React.Component{
+	render(){
+		var fooStyle={
+			backgroundColor: "lightblue",
+			height: 200,
+			width: "100%",
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white"
+		};
+
+		return(
+		<div style={fooStyle}>
+			<h2 id="cinco"></h2>
+			<Button1/>
+		    <Button2/>
+		</div>
+		);
+	}
+}
+
+ReactDOM.render(
+		
+		<div>
+			<Encabezado/>
+			<Menu/>
+			<Contenido/>
+			<Footer/>
+		</div>,
+		document.querySelector("#container")
+);
+
+</script>
+</body>
+</html>

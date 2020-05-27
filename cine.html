@@ -1,0 +1,187 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mis Películas Favoritas</title>
+	<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  	<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/babel">
+
+class Titulo extends React.Component{
+	render(){
+		var titStyle={
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white",
+			backgroundColor: "plum",
+			width: "100%"
+		};
+		
+		return(
+		<div style={titStyle}>
+			<h1>Mis Películas Favoritas</h1>
+		</div>
+		);
+	}
+}
+
+
+class C1 extends React.Component{
+	render(){
+		var c1Style={
+			display: "flex",
+			justifyContent: "space-around",
+			flexDirection: "column",
+			alignItems: "center",
+			border: "2px solid white",
+			width: 600,
+			height: 500,
+			borderRadius: 5,
+			backgroundColor: "palevioletred",
+			fontFamily: "Courier"
+		};
+		
+		return(
+		<div style={c1Style}>
+			{this.props.children}
+		</div>
+		);
+	}
+}
+
+
+
+class Contenido extends React.Component{
+	render(){
+		var contStyle={
+			margin: "0 auto",
+			display: "flex",
+			alignItems: "center",
+			justifyContent:"space-around",
+			flexDirection:"row",
+			flexWrap: "wrap",
+			backgroundColor:"pink"
+		};
+		
+		return(
+		<div style={contStyle}>
+			<C1>
+				<h2><em>El viaje de Chihiro</em> </h2>
+				<iframe width="560" height="315"src="https://www.youtube.com/embed/LmKI2rg3-NA" frameborder="0" 
+				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>A Clockwork Orange </em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/NPinel6R-_Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em> 2001: A Space Odyssey</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/oR_e9y-bka0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>Macario</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/woJrnMR7imY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>Full Metal Jacket</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/Ks_MbPPkhmA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>American Beauty</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/GqXz2NeSpY8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>The Dark Knight</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/Z8XRPn0dZcI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>Kill Bill</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/7kSuas6mRpk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>	
+            <h2><em>V for Vendetta</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/lSA7mAHolAw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+
+			<C1>
+				<h2><em>Joker</em> </h2>
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/nK1DPGkyrEY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</C1>
+		</div>
+		);
+	}
+}
+
+class Button1 extends React.Component{
+	render(){
+		var but1Style={
+			color: "black",
+			backgroundColor: "mediumorchid",
+			fontWeight: "bold",
+			padding: 10,
+			textAlign: "center",
+			border: "1px solid #5D6063",
+			borderRadius: 5,
+			width: 150,
+			margin: "10px auto"
+		};
+
+		return(
+		<div style={but1Style}>
+			<h2><a href='cur.html'>Regresar</a></h2>
+		</div>
+		);
+	}
+}
+
+class Footer extends React.Component{
+	render(){
+		var fooStyle={
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			color: "white",
+			backgroundColor: "plum",
+			flexDirection: "column",
+			width: "100%"
+		};
+
+		return(
+		<div style={fooStyle}>
+			<h2>Páginas de descarga</h2>
+			<h3><a href="http://bajalogratis.com/" target='_blank'> Primero</a>.</h3>
+			<h3><a href="https://www.cinecalidad.is" target='_blank'> Segundo</a>.</h3>
+			<h3><a href="https://www.pelisplanet.com/" target='_blank'> Tercero</a>.</h3>
+			<Button1/>
+		</div>
+		);
+	}
+}
+
+ReactDOM.render(
+		
+		<div>
+			<Titulo/>
+			<Contenido/>
+			<Footer/>
+		</div>,
+		document.querySelector("#container")
+);
+
+</script>
+</body>
+</html>
