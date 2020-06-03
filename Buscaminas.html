@@ -13,6 +13,7 @@
   <div id="container"></div>
   <script type="text/babel">
 
+  //abrir celda
   const Celda = ( props )=> {
       //console.log(props.data)
       let celda = () => {
@@ -28,7 +29,7 @@
                       >
                       </div>
                   ); 
-              }else if(props.data.minaActiva){ //mostrar bombas
+              }else if(props.data.minaActiva){ //mostrar bomba
                   return(
                       <div className="celda abierta" 
                           onClick={ () => props.open(props.data)}
@@ -38,7 +39,7 @@
                       >
                       `💣`
                       </div>
-                      //mostrar todas las bombas
+
                   ); 
               } else { //mostrar el numero de minas cerca
                   return(
@@ -48,7 +49,7 @@
                               e.preventDefault();
                           }}
                       >
-                          {props.data.count}
+                      {props.data.count}
                       </div>
                   ); 
               }
@@ -97,6 +98,7 @@
       );
   };
 
+  //gestion del tiempo
   const BoardHead = (props) => {
       let min = Math.floor(props.time / 60);
       let seg = props.time - min * 60 || 0;
@@ -141,6 +143,7 @@
           }
       }
 
+      //crear tablero de cada partida
       createBoard = props => {
           let board = [];
 
@@ -158,17 +161,14 @@
                   });
               }
           }
-          //console.log(board);
           
-          //poner minas
+          //poner minas al azar
           for(let i = 0; i < props.minas; i++){
               let randomF = Math.floor(Math.random() * props.filas);
               let randomC = Math.floor(Math.random() * props.columnas);
 
               let celda = board[randomF][randomC];
 
-              //CHECAR CONDICIONES SI I<0 Y ACTIVAR MINA SI SE PONE EN UN LUGAR DIF
-              //por si se llega a repetir el mismo lugar    CHECAR
               if(celda.minaActiva){
                   i--;
               } else{
@@ -210,7 +210,6 @@
               let celdaSelect = filas[celda.y][celda.x];
 
               if(celdaSelect.minaActiva && this.props.celdasAbiertas === 0){
-                  console.log("cell alreadi has mine. restart!!!");
                   let newFilas = this.createBoard(this.props);
 
                   this.setState({
@@ -218,16 +217,14 @@
                   }, () => {
                       this.open(celda);
                   });
-              }else{
+              }else{     //celda abierta, detecta que tipo es
                   if(!celda.banderaActiva && !celdaSelect.abierta){
-                      this.props.celdaClickeada();                  //DUDA
+                      this.props.celdaClickeada();                  
 
                       celdaSelect.abierta = true;
                       
                       //contar las minas que hay cerca
                       celdaSelect.count = numMinas;
-
-                      //console.log(celdaSelect);
 
                       this.setState({filas});
                       
@@ -236,11 +233,11 @@
                           this.encontrarCeldasVacias(celda);
                       }
 
-                      //encontro mina
+                      //encontro mina, fin del juego
                       if(celdaSelect.minaActiva && this.props.celdasAbiertas !== 0){
-                          this.props.juegoTerminado();
+                        this.props.juegoTerminado();
                       }
-                      //console.log(this.state.filas);
+
                   }
               }
           }); 
@@ -322,15 +319,17 @@
       if(this.state.minas + this.state.celdasAbiertas >= this.state.filas * this.state.columnas) {
         this.setState({
           status: "winner"
-        }, alert("Ganaste"))
+        }, alert("YEIH, GANASTE!!!"))
       }
     }
 
+    //termina el juego
     juegoTerminado = () => {
       this.setState({
         status: "ended"
-      });
-    };
+      }, alert("Una mina exploto, PERDISTE!!!"));
+      this.perdedor();
+    }; 
 
     componentDidMount() {
       this.intervals = [];
@@ -352,6 +351,7 @@
       this.setState({ banderas : this.state.banderas + cant});
     };
 
+    //se activa el tiempo
     clickCelda = () => {
       if(this.setState.celdasAbiertas === 0  || this.state.status !== "running" ){
         this.setState({
@@ -361,11 +361,12 @@
         );
       }
 
-      this.setState(prevState => {
+    this.setState(prevState => {
         return {celdasAbiertas: prevState.celdasAbiertas + 1};
       });
     };
 
+    //nueva partida
     reset = () => {
       this.intervals.map(clearInterval);
       this.setState(Object.assign({}, this.baseState), () => {
