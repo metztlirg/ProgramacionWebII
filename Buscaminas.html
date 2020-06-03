@@ -1,0 +1,471 @@
+<DOCTYPE! html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BUSCAMINAS</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="base.css" />
+</head>
+
+<body>
+  <div id="container"></div>
+  <script type="text/babel">
+
+  const Celda = ( props )=> {
+      //console.log(props.data)
+      let celda = () => {
+          if(props.data.abierta) {
+              if(props.data.count === 0){ //mostrar celdas vacias
+                  return(
+                      <div className="celda abierta" 
+                          onClick={() => props.open(props.data)}
+                          onContextMenu={ e => {
+                              e.preventDefault();
+                              props.bandera(props.data);
+                          }}
+                      >
+                      </div>
+                  ); 
+              }else if(props.data.minaActiva){ //mostrar bombas
+                  return(
+                      <div className="celda abierta" 
+                          onClick={ () => props.open(props.data)}
+                          onContextMenu={e =>{
+                              e.preventDefault();
+                          }}
+                      >
+                      `💣`
+                      </div>
+                      //mostrar todas las bombas
+                  ); 
+              } else { //mostrar el numero de minas cerca
+                  return(
+                      <div className="celda abierta" 
+                          onClick={ () => props.open(props.data)}
+                          onContextMenu={e =>{
+                              e.preventDefault();
+                          }}
+                      >
+                          {props.data.count}
+                      </div>
+                  ); 
+              }
+          }else if(props.data.banderaActiva){
+              return(
+                  <div className="celda bandera"
+                      onClick={ () => props.open(props.data)}
+                      onContextMenu={e => {
+                          e.preventDefault();
+                          props.bandera(props.data);
+                      }}    
+                      
+                  >
+                  `🚩`
+                  </div>
+              );
+          }else{
+              return(
+                  <div className="celda" 
+                      onClick={ () => props.open(props.data)}
+                      onContextMenu={e => {
+                          e.preventDefault();
+                          props.bandera(props.data);
+                      }}    
+                  />
+              );
+          }
+      };
+      return celda();
+  }; 
+
+  const Fila = (props) => {
+      let celdas = props.celdas.map((data, index) => (
+              < Celda 
+                  key={index} 
+                  data={data} 
+                  open={props.open} 
+                  bandera={props.bandera}
+              />
+          )
+      );
+      return(
+          <div className="fila">
+              {celdas}
+          </div>
+      );
+  };
+
+  const BoardHead = (props) => {
+      let min = Math.floor(props.time / 60);
+      let seg = props.time - min * 60 || 0;
+
+      let formatoSeg = seg < 10 ? `0${seg}` : seg;
+
+      let time = `${min}:${formatoSeg}`;
+
+      let status=
+          props.status === "running" || props.status === "waiting" ? (
+              "Reset"
+          ) : (
+              "NewGame"
+          );
+      return(
+          <div className="board-head">
+              <div className="Banderas">
+                  BAND= {props.bandO}
+              </div>
+              <button className="reset" onClick={props.reset}> {status} </button>
+              <div className="timer">
+                  TIME: {time}
+              </div>
+          </div>
+      );
+  };
+
+  class Board extends React.Component {
+      constructor(props){
+          super(props);
+          
+          this.state = {
+              filas: this.createBoard(props)   
+          };
+      }
+
+      UNSAFE_componentWillReceiveProps(nextProps){
+          if(this.props.celdasAbiertas > nextProps.celdasAbiertas || this.props.columnas !== nextProps.columnas){
+              this.setState({
+                  filas: this.createBoard(nextProps)
+              });
+          }
+      }
+
+      createBoard = props => {
+          let board = [];
+
+          for(let i = 0; i < props.filas; i++) {
+              board.push([]);
+
+              for(let j = 0; j < props.columnas; j++){
+                  board[i].push({
+                      x: j,
+                      y: i,
+                      count: 0,
+                      abierta: false,
+                      minaActiva: false,
+                      banderaActiva: false
+                  });
+              }
+          }
+          //console.log(board);
+          
+          //poner minas
+          for(let i = 0; i < props.minas; i++){
+              let randomF = Math.floor(Math.random() * props.filas);
+              let randomC = Math.floor(Math.random() * props.columnas);
+
+              let celda = board[randomF][randomC];
+
+              //CHECAR CONDICIONES SI I<0 Y ACTIVAR MINA SI SE PONE EN UN LUGAR DIF
+              //por si se llega a repetir el mismo lugar    CHECAR
+              if(celda.minaActiva){
+                  i--;
+              } else{
+                  celda.minaActiva =  true;
+              }
+              //console.log(cell);
+          }
+          //console.table(board);
+          return board;
+      };
+
+      bandera = celda =>{
+          if(this.props.status === "ended"){
+              return;
+          }
+
+          let filas = this.state.filas;
+
+          celda.banderaActiva = !celda.banderaActiva;
+          this.setState({filas});
+          this.props.Bands(celda.minaActiva ? -1 : 1);
+      };
+
+
+      open = celda  =>{  
+          if(this.props.status === "ended"){
+              return;
+          }
+
+          let totalMinas = new Promise(resolve => {
+              let minas = this.encontrarMinas(celda);
+              resolve(minas);
+          });
+
+          totalMinas.then(numMinas =>{
+              //console.log(numMinas);
+              let filas = this.state.filas;
+
+              let celdaSelect = filas[celda.y][celda.x];
+
+              if(celdaSelect.minaActiva && this.props.celdasAbiertas === 0){
+                  console.log("cell alreadi has mine. restart!!!");
+                  let newFilas = this.createBoard(this.props);
+
+                  this.setState({
+                      filas: newFilas
+                  }, () => {
+                      this.open(celda);
+                  });
+              }else{
+                  if(!celda.banderaActiva && !celdaSelect.abierta){
+                      this.props.celdaClickeada();                  //DUDA
+
+                      celdaSelect.abierta = true;
+                      
+                      //contar las minas que hay cerca
+                      celdaSelect.count = numMinas;
+
+                      //console.log(celdaSelect);
+
+                      this.setState({filas});
+                      
+                      //mostrar las celdas vacias continuas
+                      if(!celdaSelect.minaActiva && numMinas === 0){
+                          this.encontrarCeldasVacias(celda);
+                      }
+
+                      //encontro mina
+                      if(celdaSelect.minaActiva && this.props.celdasAbiertas !== 0){
+                          this.props.juegoTerminado();
+                      }
+                      //console.log(this.state.filas);
+                  }
+              }
+          }); 
+      };
+
+      //calculo de las minas cercanas
+      encontrarMinas = celda =>{
+          let minasCercanas = 0;
+          for(let fila = -1; fila <= 1; fila++){
+            for(let columna = -1; columna <= 1; columna++){
+              if(celda.y + fila >= 0 && celda.x + columna >= 0){
+                if( celda.y + fila < this.state.filas.length && celda.x + columna < this.state.filas[0].length) {
+                  if (this.state.filas[celda.y + fila][celda.x + columna].minaActiva && !(fila === 0 && columna === 0) ) {
+                    minasCercanas++;
+                  }
+                }
+              }
+            }  
+          }
+          return minasCercanas;
+      };
+
+
+      //abre las celdas vacias cercanas
+      encontrarCeldasVacias = celda =>{
+          let filas = this.state.filas;
+
+          for(let fila = -1; fila <= 1; fila++){
+            for(let columna = -1; columna <=1; columna++){
+                if(celda.y + fila >= 0 && celda.x + columna >= 0){
+                  if( celda.y + fila < filas.length && celda.x + columna < filas[0].length) {
+                    if(!this.state.filas[celda.y + fila][celda.x + columna].minaActiva && !filas[celda.y + fila][celda.x + columna].abierta){
+                      this.open(filas[celda.y + fila][celda.x + columna]);
+                    }
+                  }
+                }
+            }
+          }
+      };
+
+      render() {
+          let filas = this.state.filas.map((celdas, index) =>(
+              <Fila 
+                  celdas = {celdas}
+                  key = {index}
+                  open = {this.open}
+                  bandera = {this.bandera}
+              />
+            )
+          );
+          return <div className="board"> {filas} </div>;
+      }
+  }
+
+  class Buscaminas extends React.Component {
+    constructor(){
+      super();
+
+      this.state = {
+        status: "waiting",  //running, waiting, ended
+        filas: 9,
+        columnas: 9,
+        banderas: 10,
+        minas: 10,
+        time: 0,
+        celdasAbiertas: 0
+      };
+      this.baseState = this.state;
+    }
+
+    //verifica si gano el jugador
+    componentDidUpdate(nextProps, nextState){
+      if(this.state.status === "running"){
+        this.ganador();
+      }
+    }
+
+    ganador= () => {
+      if(this.state.minas + this.state.celdasAbiertas >= this.state.filas * this.state.columnas) {
+        this.setState({
+          status: "winner"
+        }, alert("Ganaste"))
+      }
+    }
+
+    juegoTerminado = () => {
+      this.setState({
+        status: "ended"
+      });
+    };
+
+    componentDidMount() {
+      this.intervals = [];
+    }
+
+    setInterval = (fn, t) => {
+      this.intervals.push(setInterval(fn, t));
+    };
+
+    //tiempo --> es activado cuando se presiona la primera celda  
+    tick = () => { 
+      if(this.state.celdasAbiertas > 0 && this.state.status === "running"){
+        let time = this.state.time + 1;
+        this.setState({time});
+      }
+    };
+
+    Bands = cant => {
+      this.setState({ banderas : this.state.banderas + cant});
+    };
+
+    clickCelda = () => {
+      if(this.setState.celdasAbiertas === 0  || this.state.status !== "running" ){
+        this.setState({
+          status: "running"
+        }, 
+          this.setInterval(this.tick, 1000)
+        );
+      }
+
+      this.setState(prevState => {
+        return {celdasAbiertas: prevState.celdasAbiertas + 1};
+      });
+    };
+
+    reset = () => {
+      this.intervals.map(clearInterval);
+      this.setState(Object.assign({}, this.baseState), () => {
+        this.intervals = [];
+      });
+    };
+
+    render(){
+      return (
+        <div className="buscaminas">
+          <div className="titulo"><h1> BUSCAMINAS </h1></div>
+          <div className="sep"></div>
+          <Board 
+            status={this.state.status}
+            filas={this.state.filas} 
+            columnas={this.state.columnas} 
+            minas={this.state.minas}
+            Bands ={this.Bands}
+            celdasAbiertas={this.state.celdasAbiertas}
+            celdaClickeada = {this.clickCelda}
+            juegoTerminado = {this.juegoTerminado}
+          />
+          <BoardHead 
+            time={this.state.time} 
+            bandO={this.state.banderas} 
+            reset={this.reset}
+            status={this.state.status}
+          />
+        </div>
+      );
+    }
+  }
+
+   class Contenido extends React.Component{
+    render(){
+      var contStyle={
+        display: "flex",
+        backgroundColor:"pink",
+        alignItems: "center",
+      justifyContent: "center"
+      };
+      
+      return(
+      <div style={contStyle}>
+        <Buscaminas/>
+      </div>
+      );
+    }
+  }
+
+class Button extends React.Component{
+  render(){
+    var but2Style={
+      color: "black",
+      backgroundColor: "mediumorchid",
+      fontWeight: "bold",
+      padding: 10,
+      textAlign: "center",
+      border: "1px solid #5D6063",
+      borderRadius: 5,
+      width: 150,
+      margin: "10px auto"
+    };
+    return(
+    <div style={but2Style}>
+      {this.props.children}
+    </div>
+    );
+  }
+  
+}
+
+  class Footer extends React.Component{
+  render(){
+    var fooStyle={
+      backgroundColor: "lightblue",
+      height: 100,
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      color: "white"
+    };
+
+    return(
+    <div style={fooStyle}>
+      <Button><h2><a href='cur.html'>Regresar</a></h2></Button>
+    </div>
+    );
+  }
+}
+
+  ReactDOM.render(
+    <div>
+      <Contenido/>
+      <Footer/>
+    </div>,
+    document.querySelector("#container")
+  );
+
+  </script>
+  </body>
+</html> 
