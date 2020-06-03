@@ -201,7 +201,7 @@ class Contenido extends React.Component{
 	}
 }
 
-class Button1 extends React.Component{
+class Button extends React.Component{
 	render(){
 		var but1Style={
 			color: "black",
@@ -217,32 +217,10 @@ class Button1 extends React.Component{
 
 		return(
 		<div style={but1Style}>
-			<h2><a href='deportes.html'>Deportes</a></h2>
+			{this.props.children}
 		</div>
 		);
 	}
-}
-
-class Button2 extends React.Component{
-	render(){
-		var but2Style={
-			color: "black",
-			backgroundColor: "mediumorchid",
-			fontWeight: "bold",
-			padding: 10,
-			textAlign: "center",
-			border: "1px solid #5D6063",
-			borderRadius: 5,
-			width: 150,
-			margin: "10px auto"
-		};
-		return(
-		<div style={but2Style}>
-			<h2><a href='cine.html'>Cine</a></h2>
-		</div>
-		);
-	}
-	
 }
 
 class Footer extends React.Component{
@@ -260,8 +238,10 @@ class Footer extends React.Component{
 		return(
 		<div style={fooStyle}>
 			<h2 id="cinco"></h2>
-			<Button1/>
-		    <Button2/>
+			<Button><h2><a href='deportes.html'>Deportes</a></h2></Button>
+			<Button><h2><a href='cine.html'>Cine</a></h2></Button>
+			<Button><h2><a href='reloj.html'>Reloj</a></h2></Button>
+			<Button><h2><a href='Buscaminas.html'>Buscaminas</a></h2></Button>
 		</div>
 		);
 	}
